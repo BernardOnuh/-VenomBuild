@@ -1,7 +1,18 @@
 import './globals.css'
 import { Inter } from 'next/font/google'
+import { initVenomConnect } from '../components/venom-connect/configure';
+import VenomConnect from 'venom-connect';
+import React, { useEffect, useState } from 'react';
 
 const inter = Inter({ subsets: ['latin'] })
+const [venomConnect, setVenomConnect] = useState<VenomConnect | undefined>();
+  const init = async () => {
+    const _venomConnect = await initVenomConnect();
+    setVenomConnect(_venomConnect);
+  };
+  useEffect(() => {
+    init();
+  }, []);
 
 export const metadata = {
   title: 'Create Next App',
@@ -15,7 +26,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className} venomConnect={venomConnect}  >{children}</body>
     </html>
   )
 }
